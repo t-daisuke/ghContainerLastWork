@@ -1,0 +1,35 @@
+version: "3"
+services:
+  service_a:
+    build:
+      context: ./ch14_aiu
+    command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - "./ch14_aiu:/myapp"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - service_b
+
+  service_b:
+    build:
+      context: ./ch14_eoa
+      # command: bundle exec rails s -p 3001 -b '0.0.0.0'
+    command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3001 -b '0.0.0.0'"
+    volumes:
+      - "./ch14_eoa:/myapp"
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+
+volumes:
+  db_data:
