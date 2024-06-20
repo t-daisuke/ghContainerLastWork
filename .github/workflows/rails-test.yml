@@ -34,7 +34,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1 # プロジェクトのRubyバージョンに合わせてください
+          ruby-version: 3.2.3 # Gemfileで指定しているバージョンに変更
           bundler-cache: true
 
       - name: Install dependencies
@@ -83,7 +83,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1 # プロジェクトのRubyバージョンに合わせてください
+          ruby-version: 3.2.3 # Gemfileで指定しているバージョンに変更
           bundler-cache: true
 
       - name: Install dependencies
