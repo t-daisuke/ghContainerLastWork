@@ -34,30 +34,15 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.3  # Gemfileで指定しているバージョンに変更
+          ruby-version: 3.2.3 # Gemfileで指定しているバージョンに変更
           bundler-cache: true
 
-      - name: Print current directory
-        run: echo "Current directory: $(pwd)"
-
-      - name: List files in root
-        run: ls -la
-
-      - name: List files in ch14_aiu
-        run: ls -la ./ch14_aiu
-
       - name: Install dependencies
-        run: |
-          echo "Changing to directory: ./ch14_aiu"
-          cd ./ch14_aiu
-          echo "Current directory: $(pwd)"
-          bundle install
+        run: bundle install
+        working-directory: ./ch14_aiu
 
       - name: Set up database
         run: |
-          echo "Changing to directory: ./ch14_aiu"
-          cd ./ch14_aiu
-          echo "Current directory: $(pwd)"
           cp config/database.yml.ci config/database.yml
           bundle exec rails db:create db:schema:load
         env:
@@ -65,15 +50,13 @@ jobs:
           DB_HOST: db
           DB_USERNAME: postgres
           DB_PASSWORD: password
+        working-directory: ./ch14_aiu
 
       - name: Run tests
-        run: |
-          echo "Changing to directory: ./ch14_aiu"
-          cd ./ch14_aiu
-          echo "Current directory: $(pwd)"
-          bundle exec rails test
+        run: bundle exec rails test
         env:
           RAILS_ENV: test
+        working-directory: ./ch14_aiu
 
   test_ch14_eoa:
     runs-on: ubuntu-latest
@@ -100,30 +83,15 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.3  # Gemfileで指定しているバージョンに変更
+          ruby-version: 3.2.3 # Gemfileで指定しているバージョンに変更
           bundler-cache: true
 
-      - name: Print current directory
-        run: echo "Current directory: $(pwd)"
-
-      - name: List files in root
-        run: ls -la
-
-      - name: List files in ch14_eoa
-        run: ls -la ./ch14_eoa
-
       - name: Install dependencies
-        run: |
-          echo "Changing to directory: ./ch14_eoa"
-          cd ./ch14_eoa
-          echo "Current directory: $(pwd)"
-          bundle install
+        run: bundle install
+        working-directory: ./ch14_eoa
 
       - name: Set up database
         run: |
-          echo "Changing to directory: ./ch14_eoa"
-          cd ./ch14_eoa
-          echo "Current directory: $(pwd)"
           cp config/database.yml.ci config/database.yml
           bundle exec rails db:create db:schema:load
         env:
@@ -131,12 +99,10 @@ jobs:
           DB_HOST: db
           DB_USERNAME: postgres
           DB_PASSWORD: password
+        working-directory: ./ch14_eoa
 
       - name: Run tests
-        run: |
-          echo "Changing to directory: ./ch14_eoa"
-          cd ./ch14_eoa
-          echo "Current directory: $(pwd)"
-          bundle exec rails test
+        run: bundle exec rails test
         env:
           RAILS_ENV: test
+        working-directory: ./ch14_eoa
