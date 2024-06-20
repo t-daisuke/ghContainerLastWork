@@ -41,13 +41,22 @@ jobs:
         run: bundle install
         working-directory: ./ch14_aiu
 
+      - name: Wait for DB to be ready
+        run: |
+          while ! pg_isready -h localhost -U postgres; do
+            echo "Waiting for postgres container..."
+            sleep 1
+          done
+        env:
+          PGPASSWORD: password
+
       - name: Set up database
         run: |
           cp config/database.yml.ci config/database.yml
           bundle exec rails db:create db:schema:load
         env:
           RAILS_ENV: test
-          DB_HOST: db
+          DB_HOST: localhost
           DB_USERNAME: postgres
           DB_PASSWORD: password
         working-directory: ./ch14_aiu
@@ -90,13 +99,22 @@ jobs:
         run: bundle install
         working-directory: ./ch14_eoa
 
+      - name: Wait for DB to be ready
+        run: |
+          while ! pg_isready -h localhost -U postgres; do
+            echo "Waiting for postgres container..."
+            sleep 1
+          done
+        env:
+          PGPASSWORD: password
+
       - name: Set up database
         run: |
           cp config/database.yml.ci config/database.yml
           bundle exec rails db:create db:schema:load
         env:
           RAILS_ENV: test
-          DB_HOST: db
+          DB_HOST: localhost
           DB_USERNAME: postgres
           DB_PASSWORD: password
         working-directory: ./ch14_eoa
