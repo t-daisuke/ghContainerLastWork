@@ -1,0 +1,57 @@
+name: Rails Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:13
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: myapp_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1 # ここはプロジェクトのRubyバージョンに合わせてください
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Set up database
+        run: |
+          cp config/database.yml.ci config/database.yml
+          bundle exec rails db:create db:schema:load
+        env:
+          RAILS_ENV: test
+          DB_HOST: db
+          DB_USERNAME: postgres
+          DB_PASSWORD: password
+
+      - name: Run tests
+        run: bundle exec rails test
+        env:
+          RAILS_ENV: test
