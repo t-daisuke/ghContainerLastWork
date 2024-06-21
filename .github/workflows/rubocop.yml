@@ -24,6 +24,7 @@ jobs:
           reporter: github-pr-review # Default is github-pr-check
           skip_install: true
           use_bundler: true
+          workdir: ./ch14_aiu
 
   # 一旦コメントアウト
   # rubocop_ch14_eoa:
