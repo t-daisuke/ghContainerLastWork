@@ -24,6 +24,25 @@ jobs:
           reporter: github-pr-review # Default is github-pr-check
           workdir: ./ch14_aiu
           level: info
+  rubocop_ch14_eoa:
+    name: runner / rubocop ch14_eoa
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_ONLY: rubocop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2.3"
+          bundler-cache: true
+      - name: Install dependencies
+        run: bundle install
+        working-directory: ./ch14_eoa
+      - uses: reviewdog/action-rubocop@v2
+        with:
+          reporter: github-pr-review # Default is github-pr-check
+          workdir: ./ch14_eoa
+          level: warning
 
   # 一旦コメントアウト
   # rubocop_ch14_eoa:
