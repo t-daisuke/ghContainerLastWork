@@ -23,6 +23,7 @@ jobs:
         with:
           reporter: github-pr-review # Default is github-pr-check
           workdir: ./ch14_aiu
+          level: info
 
   # 一旦コメントアウト
   # rubocop_ch14_eoa:
