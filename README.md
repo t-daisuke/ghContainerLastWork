@@ -113,3 +113,44 @@ aws ecr list-images --repository-name dos_img_eoa --region us-east-1
 ```
 
 # k８sに認証情報を載せる
+```
+aws ecr get-login-password --profile default
+```
+でパスワードを把握し、それを
+~/.docker/congfig.jsonに
+```
+{
+	"auths": {
+		"905418468932.dkr.ecr.us-east-1.amazonaws.com": {
+			"auth": <get-login-passwordのパス>
+        }
+	}
+}
+```
+このjsonをbase 64にしてSecretとしてk8sに送る
+
+```
+kubectl create secret generic ecr-secret --from-file=.dockerconfigjson=/Users/doskoi64/.docker/config.json --type=kubernetes.io/dockerconfigjson
+```
+
+→クラスターにアクセスできてない
+
+正解は~/.aws/のプロファイルのdefaultからeksの情報が消えてしまった。
+そのため、eksにログインができなくなってしまった。
+
+なので、再度~/.aws/configやcredentialsに入れる
+
+それを適用します
+```
+aws eks update-kubeconfig --region us-east-1 --name training-cluster --profile dos_eks
+#確認
+kubectl get pods
+kubectl get pods -n haruotsu
+```
+でk8sにアクセスできるようになりました
+
+```
+kubectl create secret generic ecr-secret --from-file=.dockerconfigjson=/Users/doskoi64/.docker/config.json --type=kubernetes.io/dockerconfigjson
+kubectl get secrets
+```
+でちゃんとsecretが入る
