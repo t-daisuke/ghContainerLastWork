@@ -24,6 +24,7 @@ docker compose up --build
 
 問題発生
 
+# AWS ECRにプッシュする
 dockerですること見つけた
 ```
 # もらったECRのシークレットを別のプロファイルとして登録
@@ -110,3 +111,5 @@ docker push 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_eoa:latest
 aws ecr list-images --repository-name dos_img_aiu --region us-east-1
 aws ecr list-images --repository-name dos_img_eoa --region us-east-1
 ```
+
+# k８sに認証情報を載せる
