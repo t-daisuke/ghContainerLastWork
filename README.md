@@ -93,3 +93,14 @@ ghcontainerlastwork-service_a   latest    c96809b173a8   2 minutes ago    1.32GB
 docker compose build
 ```
 で立てられるのでall ok
+
+tagづけ
+```
+docker tag ghcontainerlastwork-service_a:latest 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_aiu:latest
+docker tag ghcontainerlastwork-service_b:latest 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_eoa:latest
+```
+push
+```
+docker push 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_aiu:latest
+docker push 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_eoa:latest
+```
