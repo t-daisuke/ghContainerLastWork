@@ -72,14 +72,24 @@ aws ecr describe-repositories #確認
 #ログイン
 aws ecr get-login-password --profile default | docker login --username AWS --password-stdin 905418468932.dkr.ecr.us-east-1.amazonaws.com
 ```
-
+(後述、ここいらないです)
 REPOSITORY                      TAG       IMAGE ID       CREATED         SIZE
 ghcontainerlastwork-service_a   latest    e40616706fd1   4 days ago      1.32GB
 ghcontainerlastwork-service_b   latest    c7fe7d75ebc0   4 days ago      1.31GB
-とあるので
+とあるのでそれに倣って
 ```
 #service_aのリポジトリで
 docker build -t ghcontainerlastwork-service_a:latest .
 #service_bのリポジトリで
 docker build -t ghcontainerlastwork-service_b:latest .
 ```
+REPOSITORY                      TAG       IMAGE ID       CREATED          SIZE
+ghcontainerlastwork-service_b   latest    6d72d76ddef9   39 seconds ago   1.31GB
+ghcontainerlastwork-service_a   latest    c96809b173a8   2 minutes ago    1.32GB
+立てられた！
+
+→いらない
+```
+docker compose build
+```
+で立てられるのでall ok
