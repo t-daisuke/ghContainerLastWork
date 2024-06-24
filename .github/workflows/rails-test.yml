@@ -1,0 +1,126 @@
+name: Rails Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test_ch14_aiu:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:13
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: myapp_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.3 # Gemfileで指定しているバージョンに変更
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: bundle install
+        working-directory: ./ch14_aiu
+
+      - name: Wait for DB to be ready
+        run: |
+          while ! pg_isready -h localhost -U postgres; do
+            echo "Waiting for postgres container..."
+            sleep 1
+          done
+        env:
+          PGPASSWORD: password
+
+      - name: Set up database
+        run: |
+          cp config/database.yml.ci config/database.yml
+          bundle exec rails db:create db:schema:load
+        env:
+          RAILS_ENV: test
+          DB_HOST: localhost
+          DB_USERNAME: postgres
+          DB_PASSWORD: password
+        working-directory: ./ch14_aiu
+
+      - name: Run tests
+        run: bundle exec rails test
+        env:
+          RAILS_ENV: test
+        working-directory: ./ch14_aiu
+
+  test_ch14_eoa:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:13
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: myapp_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.3 # Gemfileで指定しているバージョンに変更
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: bundle install
+        working-directory: ./ch14_eoa
+
+      - name: Wait for DB to be ready
+        run: |
+          while ! pg_isready -h localhost -U postgres; do
+            echo "Waiting for postgres container..."
+            sleep 1
+          done
+        env:
+          PGPASSWORD: password
+
+      - name: Set up database
+        run: |
+          cp config/database.yml.ci config/database.yml
+          bundle exec rails db:create db:schema:load
+        env:
+          RAILS_ENV: test
+          DB_HOST: localhost
+          DB_USERNAME: postgres
+          DB_PASSWORD: password
+        working-directory: ./ch14_eoa
+
+      - name: Run tests
+        run: bundle exec rails test
+        env:
+          RAILS_ENV: test
+        working-directory: ./ch14_eoa
