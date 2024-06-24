@@ -57,3 +57,29 @@ docker tag <your image　2つめ> <AWS ID>.dkr.ecr.us-east-1.amazonaws.com/<your
 docker tag <your image　1つめ> <AWS ID>.dkr.ecr.us-east-1.amazonaws.com/<your image haruotsu-flask-images>:latest
 docker tag <your image　2つめ> <AWS ID>.dkr.ecr.us-east-1.amazonaws.com/<your image haruotsu-rails-images>:latest
 ```
+
+以下、やったこと
+```
+aws configure
+aws ecr create-repository --repository-name dos_img_aiu --profile default
+aws ecr create-repository --repository-name dos_img_eoa --profile default
+#~/.aws/config と ~/.aws/credentialsに追加されるよ！
+aws ecr describe-repositories #確認
+#ちなみに、これのrepositoryArnでユーザーidとかわかる
+```
+
+```
+#ログイン
+aws ecr get-login-password --profile default | docker login --username AWS --password-stdin 905418468932.dkr.ecr.us-east-1.amazonaws.com
+```
+
+REPOSITORY                      TAG       IMAGE ID       CREATED         SIZE
+ghcontainerlastwork-service_a   latest    e40616706fd1   4 days ago      1.32GB
+ghcontainerlastwork-service_b   latest    c7fe7d75ebc0   4 days ago      1.31GB
+とあるので
+```
+#service_aのリポジトリで
+docker build -t ghcontainerlastwork-service_a:latest .
+#service_bのリポジトリで
+docker build -t ghcontainerlastwork-service_b:latest .
+```
