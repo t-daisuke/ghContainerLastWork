@@ -195,3 +195,13 @@ serviceのtargetPortは80になります
  2015  docker images
 ```
 
+嘘です。
+docker hubにあるものができるので、
+localでする場合は違う書き方になる。
+
+# 今回はecsに挙げたイメージを使ってみよう
+
+名前をecrにあげたものにしよう
+k8s(eks)にecrのsecretを教えよう(上記参考)
+
+applyしてportforwrdしよう

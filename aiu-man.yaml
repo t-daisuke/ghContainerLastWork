@@ -4,7 +4,7 @@ metadata:
   name: service-a-deployment
   namespace: doskoi
 spec:
-  replicas: 1  # 必要なレプリカ数
+  replicas: 3  # 必要なレプリカ数
   selector:
     matchLabels:
       app: service-a
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: service-a
-        image: service_a_image:latest  # 使用するDockerイメージ
+        image: 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_aiu:latest  # 使用するDockerイメージ
         ports:
         - containerPort: 3000  # コンテナがリッスンするポート
 ---
@@ -29,6 +29,5 @@ spec:
   ports:
   - port: 3000
     targetPort: 3000
-    nodePort: 30000
   selector:
     app: service-a
