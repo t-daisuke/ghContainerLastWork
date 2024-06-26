@@ -155,7 +155,7 @@ kubectl get secrets
 ```
 でちゃんとsecretが入る
 
-# 一方その頃、localのk8sで
+# 一方その頃、localのk8sでnginxを立ててみよう
 
 ```
 kubectl apply -f dev_a_tmp.yaml 
@@ -178,7 +178,7 @@ handson-nginx     ClusterIP   172.20.158.29    <none>        80/TCP    7d21h
 これをport-forwardしてあげる
 
 ```
-kubectl port-forward -n doskoi svc/a-handson-nginx 8888:80
+kubectl port-forward -n doskoi svc/a-handson-nginx 8889:1234
 ```
 
 labelとかportはよしなにしてあげないといけない。
