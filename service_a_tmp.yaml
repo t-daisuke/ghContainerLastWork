@@ -10,6 +10,9 @@ spec:
 # 今は書いてないのでランダムに振り分けてます。
   # serviceはfrom どこでもいい to pods
   selector:
+    # ここのラベルが全てのDeploymentマニフェストで同じなので、
+    # 3つのDeploymentのPod全てに対してトラフィックが振り分けられる
+    # つまり9つのサービスが生まれる
     app.kubernetes.io/name: nginx
     # これはDploymentで言う以下のところに相当
     # metadata:
@@ -18,4 +21,4 @@ spec:
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 80
+    targetPort: 1234
