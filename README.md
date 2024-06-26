@@ -182,3 +182,5 @@ kubectl port-forward -n doskoi svc/a-handson-nginx 8888:80
 ```
 
 labelとかportはよしなにしてあげないといけない。
+niginxのデフォルトが80なせいで、containerPortは80固定で、
+serviceのtargetPortは80になります
