@@ -13,7 +13,7 @@ spec:
     # ここのラベルが全てのDeploymentマニフェストで同じなので、
     # 3つのDeploymentのPod全てに対してトラフィックが振り分けられる
     # つまり9つのサービスが生まれる
-    app.kubernetes.io/name: nginx
+    app.kubernetes.io/name: nginx_a
     # これはDploymentで言う以下のところに相当
     # metadata:
     #   labels:
