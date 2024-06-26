@@ -5,8 +5,16 @@ metadata:
   name: a-handson-nginx
   namespace: doskoi
 spec:
+# 後ろのpods(serviceの繋ぐ先。userを前とした時の後ろ)に対して、どれにどう振り分けるの？
+# ってことを書く
+# 今は書いてないのでランダムに振り分けてます。
+  # serviceはfrom どこでもいい to pods
   selector:
     app.kubernetes.io/name: nginx
+    # これはDploymentで言う以下のところに相当
+    # metadata:
+    #   labels:
+    #     app.kubernetes.io/name: nginx
   ports:
   - protocol: TCP
     port: 80

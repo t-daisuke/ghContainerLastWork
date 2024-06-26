@@ -165,4 +165,18 @@ kubectl apply -f dev_a_tmp.yaml
 ```
 kubectl get deployments -n doskoi
 kubectl get pods -n doskoi
+kubectl get services -n doskoi 
 ```
+確認できる
+NAME              TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+a-handson-nginx   ClusterIP   172.20.149.179   <none>        80/TCP    10m
+b-handson-nginx   ClusterIP   172.20.111.101   <none>        80/TCP    9m57s
+handson-nginx     ClusterIP   172.20.158.29    <none>        80/TCP    7d21h
+
+
+これをport-forwardしてあげる
+
+```
+kubectl port-forward -n doskoi svc/a-handson-nginx 8888:80
+```
+
