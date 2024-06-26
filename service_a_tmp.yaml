@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: a_handson-nginx
+  name: a-handson-nginx
   namespace: doskoi
 spec:
   selector:
