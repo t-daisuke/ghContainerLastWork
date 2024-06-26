@@ -156,3 +156,13 @@ kubectl get secrets
 でちゃんとsecretが入る
 
 # 一方その頃、localのk8sで
+
+```
+kubectl apply -f dev_a_tmp.yaml 
+```
+でcreateする(このコマンドでも良いけど、createかつreplaceを使うみたいな感じ)
+
+```
+kubectl get deployments -n doskoi
+kubectl get pods -n doskoi
+```
