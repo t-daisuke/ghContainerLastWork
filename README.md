@@ -154,3 +154,5 @@ kubectl create secret generic ecr-secret --from-file=.dockerconfigjson=/Users/do
 kubectl get secrets
 ```
 でちゃんとsecretが入る
+
+# 一方その頃、localのk8sで
