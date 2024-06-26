@@ -184,3 +184,14 @@ kubectl port-forward -n doskoi svc/a-handson-nginx 8889:1234
 labelとかportはよしなにしてあげないといけない。
 niginxのデフォルトが80なせいで、containerPortは80固定で、
 serviceのtargetPortは80になります
+
+# 自分のimagesでしてみましょう。
+
+勝手に一つにマニフェストに分けた。
+
+```
+ 2013  docker build -t service_a_image ./ch14_aiu
+ 2014  docker build -t service_b_image ./ch14_eoa
+ 2015  docker images
+```
+
