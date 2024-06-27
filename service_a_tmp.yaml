@@ -1,0 +1,24 @@
+# localにnginxをk8s上で動かすものです
+apiVersion: v1
+kind: Service
+metadata:
+  name: a-handson-nginx
+  namespace: doskoi
+spec:
+# 後ろのpods(serviceの繋ぐ先。userを前とした時の後ろ)に対して、どれにどう振り分けるの？
+# ってことを書く
+# 今は書いてないのでランダムに振り分けてます。
+  # serviceはfrom どこでもいい to pods
+  selector:
+    # ここのラベルが全てのDeploymentマニフェストで同じなので、
+    # 3つのDeploymentのPod全てに対してトラフィックが振り分けられる
+    # つまり9つのサービスが生まれる
+    app.kubernetes.io/name: nginx_a
+    # これはDploymentで言う以下のところに相当
+    # metadata:
+    #   labels:
+    #     app.kubernetes.io/name: nginx
+  ports:
+  - protocol: TCP
+    port: 1234
+    targetPort: 80

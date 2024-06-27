@@ -9,27 +9,27 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      # - db
       - service_b
 
   service_b: # こっちが先に立ち上がる予定
     build:
       context: ./ch14_eoa
       # command: bundle exec rails s -p 3001 -b '0.0.0.0'
-    command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails db:create && bundle exec rails db:migrate && bundle exec rails s -p 3001 -b '0.0.0.0'"
+    command: /bin/sh -c "rm -f tmp/pids/server.pid &&  bundle exec rails s -p 3001 -b '0.0.0.0'"
     volumes:
       - "./ch14_eoa:/myapp"
     ports:
       - "3001:3001"
-    depends_on:
-      - db
+    # depends_on:
+    # - db
+#   #　いらなくね
+#   db:
+#     image: postgres:14
+#     volumes:
+#       - db_data:/var/lib/postgresql/data
+#     environment:
+#       POSTGRES_PASSWORD: password
 
-  db:
-    image: postgres:14
-    volumes:
-      - db_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: password
-
-volumes:
-  db_data:
+# volumes:
+#   db_data:

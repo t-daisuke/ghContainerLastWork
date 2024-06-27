@@ -83,11 +83,12 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   # Allow requests from our preview domain.
-  pf_host = "#{ENV['CODESPACE_NAME']}-3000.#{pf_domain}"
+  pf_host = "#{ENV['CODESPACE_NAME']}-3001.#{pf_domain}"
   config.hosts << pf_host
 
   config.action_cable.allowed_request_origins = ["https://#{pf_host}"]
 
   # ホスト承認の設定を更新
-  config.hosts << 'service_b'
+  # ここにも環境変数を導入
+  config.hosts << 'service-b-service.doskoi.svc.cluster.local'
 end

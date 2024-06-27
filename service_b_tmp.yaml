@@ -1,0 +1,14 @@
+# localにnginxをk8s上で動かすものです
+# portをずらしてるので、困るはず。
+apiVersion: v1
+kind: Service
+metadata:
+  name: b-handson-nginx
+  namespace: doskoi
+spec:
+  selector:
+    app.kubernetes.io/name: nginx_b
+  ports:
+  - protocol: TCP
+    port: 4567
+    targetPort: 80
