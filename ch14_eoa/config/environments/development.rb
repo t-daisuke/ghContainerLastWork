@@ -89,5 +89,6 @@ Rails.application.configure do
   config.action_cable.allowed_request_origins = ["https://#{pf_host}"]
 
   # ホスト承認の設定を更新
+  # ここにも環境変数を導入
   config.hosts << 'service_b'
 end
