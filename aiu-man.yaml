@@ -17,7 +17,7 @@ spec:
       - name: service-a
         image: 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_aiu:latest
         command: ["/bin/sh", "-c"]
-        args: ["rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"]
+        args: ["m -f tmp/pids/server.pid && bundle exec rails db:create && bundle exec rails db:migrate && bundle exec rails s -p 3000 -b '0.0.0.0'"]
         ports:
         - containerPort: 3000
         volumeMounts:

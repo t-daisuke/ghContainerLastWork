@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-b-deployment
+  namespace: doskoi
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: service-b
+  template:
+    metadata:
+      labels:
+        app: service-b
+    spec:
+      containers:
+      - name: service-b
+        image: 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_eoa:latest
+        command: ["/bin/sh", "-c"]
+        args: ["rm -f tmp/pids/server.pid && bundle exec rails db:create && bundle exec rails db:migrate && bundle exec rails s -p 3001 -b '0.0.0.0'"]
+        ports:
+        - containerPort: 3001
+        volumeMounts:
+        - name: myapp-b-volume
+          mountPath: /myapp
+      volumes:
+      - name: myapp-b-volume
+        persistentVolumeClaim:
+          claimName: service-b-pvc
