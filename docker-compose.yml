@@ -23,14 +23,13 @@ services:
       - "3001:3001"
     depends_on:
       - db
+#   #　いらなくね
+#   db:
+#     image: postgres:14
+#     volumes:
+#       - db_data:/var/lib/postgresql/data
+#     environment:
+#       POSTGRES_PASSWORD: password
 
-  #　いらなくね
-  db:
-    image: postgres:14
-    volumes:
-      - db_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: password
-
-volumes:
-  db_data:
+# volumes:
+#   db_data:
