@@ -18,5 +18,4 @@
 kubectl apply -f ./aiu-man.yaml
 kubectl apply -f ./eoa-man.yaml        
 # 再起動　
-kubectl rollout restart deployment service-a-deployment
-kubectl rollout restart deployment rservice-b-deployment
+kubectl rollout restart deployment -n doskoi

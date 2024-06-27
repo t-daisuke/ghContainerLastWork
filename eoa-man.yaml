@@ -21,9 +21,9 @@ spec:
         ports:
         - containerPort: 3001
         volumeMounts:
-        - name: myapp-b-volume
-          mountPath: /myapp/db
+        - name: sqlite-data-b
+          mountPath: /myapp/db  # このパスはSQLiteのデータベースファイルの保存場所に合わせてください
       volumes:
-      - name: sqlite-data
+      - name: sqlite-data-b
         persistentVolumeClaim:
-          claimName: sqlite-pvc
+          claimName: sqlite-b-pvc
