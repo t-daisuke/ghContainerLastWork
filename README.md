@@ -205,3 +205,18 @@ localでする場合は違う書き方になる。
 k8s(eks)にecrのsecretを教えよう(上記参考)
 
 applyしてportforwrdしよう
+
+# 色々紆余曲折ありましたが、デバグするときのやつ。これで情報を得よう。
+```
+kubectl get pods -n doskoi 
+
+# で出てきたNAMEに対して
+kubectl logs service-a-deployment-fc47476f7-52lch -n doskoi
+# watch "kubectl logs service-a-deployment-fc47476f7-52lch -n doskoi"もあり
+```
+をすると、podの中身を観測できます。
+
+```
+kubectl exec -it -n doskoi service-a-deployment-fc47476f7-52lch -- /bin/bash
+```
+で中身を操作、デバッグできます。
