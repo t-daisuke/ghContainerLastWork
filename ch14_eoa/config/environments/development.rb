@@ -90,5 +90,5 @@ Rails.application.configure do
 
   # ホスト承認の設定を更新
   # ここにも環境変数を導入
-  config.hosts << 'service_b'
+  config.hosts << 'service-b-service.doskoi.svc.cluster.local'
 end
