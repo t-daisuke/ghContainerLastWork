@@ -9,7 +9,7 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      # - db
       - service_b
 
   service_b: # こっちが先に立ち上がる予定
@@ -21,8 +21,8 @@ services:
       - "./ch14_eoa:/myapp"
     ports:
       - "3001:3001"
-    depends_on:
-      - db
+    # depends_on:
+    # - db
 #   #　いらなくね
 #   db:
 #     image: postgres:14
