@@ -19,4 +19,4 @@ docker push 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_eoa:latest
 kubectl apply -f ./aiu-man.yaml
 kubectl apply -f ./eoa-man.yaml        
 # 再起動　
-kubectl rollout restart deployment -n doskoi
+# kubectl rollout restart deployment -n doskoi
