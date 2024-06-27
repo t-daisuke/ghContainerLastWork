@@ -21,5 +21,5 @@ COPY . /myapp
 # ポートを指定
 EXPOSE 3000
 
-# サーバーを起動
-CMD ["rails", "server", "-b", "0.0.0.0"]
+# サーバーを起動は削除
+# CMD ["rails", "server", "-b", "0.0.0.0"]
