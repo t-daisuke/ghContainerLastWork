@@ -220,3 +220,9 @@ kubectl logs service-a-deployment-fc47476f7-52lch -n doskoi
 kubectl exec -it -n doskoi service-a-deployment-fc47476f7-52lch -- /bin/bash
 ```
 で中身を操作、デバッグできます。
+
+# argoCDで管理
+
+```
+kubectl port-forward -n argocd service/argocd-server 8080:443
+```
