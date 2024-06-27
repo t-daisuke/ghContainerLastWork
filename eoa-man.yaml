@@ -20,3 +20,16 @@ spec:
         # args: ["rm -f tmp/pids/server.pid && bundle exec rails db:create && bundle exec rails db:migrate && bundle exec rails s -p 3001 -b '0.0.0.0'"]
         ports:
         - containerPort: 3001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-b-service
+  namespace: doskoi
+spec:
+  type: NodePort
+  ports:
+  - port: 3001
+    targetPort: 3001
+  selector:
+    app: service-b
