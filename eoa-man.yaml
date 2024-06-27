@@ -22,8 +22,8 @@ spec:
         - containerPort: 3001
         volumeMounts:
         - name: myapp-b-volume
-          mountPath: /myapp
+          mountPath: /myapp/db
       volumes:
-      - name: myapp-b-volume
+      - name: sqlite-data
         persistentVolumeClaim:
-          claimName: service-b-pvc
+          claimName: sqlite-pvc
