@@ -4,7 +4,7 @@ metadata:
   name: service-a-deployment
   namespace: doskoi
 spec:
-  replicas: 3  # 必要なレプリカ数
+  replicas: 3
   selector:
     matchLabels:
       app: service-a
@@ -15,19 +15,15 @@ spec:
     spec:
       containers:
       - name: service-a
-        image: 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_aiu:latest  # 使用するDockerイメージ
+        image: 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_aiu:latest
+        command: ["/bin/sh", "-c"]
+        args: ["rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"]
         ports:
-        - containerPort: 3000  # コンテナがリッスンするポート
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: service-a-service
-  namespace: doskoi
-spec:
-  type: NodePort
-  ports:
-  - port: 3000
-    targetPort: 3000
-  selector:
-    app: service-a
+        - containerPort: 3000
+        volumeMounts:
+        - name: myapp-volume
+          mountPath: /myapp
+      volumes:
+      - name: myapp-volume
+        persistentVolumeClaim:
+          claimName: service-a-pvc
