@@ -11,6 +11,8 @@ services:
     depends_on:
       # - db
       - service_b
+    environment:
+      - ALLOWED_HOST=service_b
 
   service_b: # こっちが先に立ち上がる予定
     build:
@@ -21,6 +23,8 @@ services:
       - "./ch14_eoa:/myapp"
     ports:
       - "3001:3001"
+    environment:
+      - MY_SERVICE_HOST=service_b
     # depends_on:
     # - db
 #   #　いらなくね

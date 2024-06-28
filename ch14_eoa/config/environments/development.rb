@@ -89,6 +89,6 @@ Rails.application.configure do
   config.action_cable.allowed_request_origins = ["https://#{pf_host}"]
 
   # ホスト承認の設定を更新
-  # ここにも環境変数を導入
-  config.hosts << 'service-b-service.doskoi.svc.cluster.local'
+  allowed_host = ENV['MY_SERVICE_HOST']
+  config.hosts << allowed_host # 'service-b-service.doskoi.svc.cluster.local'
 end
