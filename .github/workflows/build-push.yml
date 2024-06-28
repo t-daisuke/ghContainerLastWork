@@ -24,17 +24,23 @@ jobs:
         run: |
           aws ecr get-login-password --region ${{ secrets.AWS_DEFAULT_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
-      - name: Build Docker Images
-        run: |
-          docker build -t dos_img_aiu:latest ./ch14_aiu
-          docker build -t dos_img_eoa:latest ./ch14_eoa
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-      - name: Tag Docker Images
-        run: |
-          docker tag dos_img_aiu:latest ${{ secrets.ECR_REGISTRY }}/dos_img_aiu:latest
-          docker tag dos_img_eoa:latest ${{ secrets.ECR_REGISTRY }}/dos_img_eoa:latest
+      - name: Build and Push Docker Images
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./ch14_aiu/Dockerfile
+          tags: ${{ secrets.ECR_REGISTRY }}/dos_img_aiu:latest
+          push: true
+          platforms: linux/arm64
 
-      - name: Push Docker Images to ECR
-        run: |
-          docker push ${{ secrets.ECR_REGISTRY }}/dos_img_aiu:latest
-          docker push ${{ secrets.ECR_REGISTRY }}/dos_img_eoa:latest
+      - name: Build and Push Docker Images
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./ch14_eoa/Dockerfile
+          tags: ${{ secrets.ECR_REGISTRY }}/dos_img_eoa:latest
+          push: true
+          platforms: linux/arm64
