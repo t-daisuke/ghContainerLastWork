@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: doskoi_eoa_app
+  name: doskoi-eoa-app
   namespace: argocd
 spec:
   project: default
