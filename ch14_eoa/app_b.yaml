@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: doskoi_eoa_app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/t-daisuke/ghContainerLastWork.git'
+    targetRevision: HEAD
+    path: 'ch14_eoa'
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: doskoi
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
