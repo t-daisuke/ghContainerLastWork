@@ -32,8 +32,8 @@ jobs:
 
       - name: Build Docker Images
         run: |
-          docker buildx build --platform linux/arm64 -t dos_img_aiu:latest ./ch14_aiu
-          docker buildx build --platform linux/arm64 -t dos_img_eoa:latest ./ch14_eoa
+          docker buildx build --platform linux/arm64 --cache-from type=registry,ref=${{ secrets.ECR_REGISTRY }}/dos_img_aiu:cache --cache-to type=registry,ref=${{ secrets.ECR_REGISTRY }}/dos_img_aiu:cache,mode=max -t ${{ secrets.ECR_REGISTRY }}/dos_img_aiu:latest ./ch14_aiu
+          docker buildx build --platform linux/arm64 --cache-from type=registry,ref=${{ secrets.ECR_REGISTRY }}/dos_img_eoa:cache --cache-to type=registry,ref=${{ secrets.ECR_REGISTRY }}/dos_img_eoa:cache,mode=max -t ${{ secrets.ECR_REGISTRY }}/dos_img_eoa:latest ./ch14_eoa
 
       - name: Tag Docker Images
         run: |
