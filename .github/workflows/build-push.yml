@@ -11,6 +11,8 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
@@ -52,8 +54,8 @@ jobs:
           COMMIT_SHA=$(git rev-parse --short HEAD)
           sed -i "s|dos_img_aiu:.*|dos_img_aiu:$COMMIT_SHA|" ./ch14_aiu/aiu-man.yaml
           sed -i "s|dos_img_eoa:.*|dos_img_eoa:$COMMIT_SHA|" ./ch14_eoa/eoa-man.yaml
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
+          git config --global user.email "t.daisuke.64@gmail.com"
+          git config --global user.name "t-daisuke"
           git add ./ch14_aiu/aiu-man.yaml ./ch14_eoa/eoa-man.yaml
           git commit -m "Update image tags to $COMMIT_SHA"
           git push
