@@ -1,0 +1,12 @@
+name: Check Runner Architecture
+
+on:
+  workflow_dispatch: # このワークフローを手動でトリガーできるようにします。
+
+jobs:
+  check-architecture:
+    runs-on: ubuntu-latest # または他の任意のランナー環境
+
+    steps:
+      - name: Check Architecture
+        run: uname -m # このコマンドはマシンのアーキテクチャを表示します。
