@@ -1,9 +1,12 @@
-name: Build and Push Docker Images
+name: Build, Push and Update Deployment
 
 on:
   push:
     branches:
       - main
+#   pull_request:
+#     branches:
+#       - main
 
 jobs:
   build-and-push:
@@ -34,23 +37,23 @@ jobs:
           docker buildx create --name mybuilder --use --driver docker-container
           docker buildx inspect --bootstrap
 
-      - name: Build Docker Images
+      - name: Build and Push Docker Images
         run: |
+          COMMIT_SHA=$(git rev-parse --short HEAD)
           docker buildx build --builder mybuilder --platform linux/arm64 \
-            --cache-from type=registry,ref=${{ secrets.ECR_REGISTRY }}/dos_img_aiu:cache \
-            --cache-to type=registry,ref=${{ secrets.ECR_REGISTRY }}/dos_img_aiu:cache,mode=max \
-            -t ${{ secrets.ECR_REGISTRY }}/dos_img_aiu:latest ./ch14_aiu
+            -t ${{ secrets.ECR_REGISTRY }}/dos_img_aiu:$COMMIT_SHA ./ch14_aiu \
+            --push
           docker buildx build --builder mybuilder --platform linux/arm64 \
-            --cache-from type=registry,ref=${{ secrets.ECR_REGISTRY }}/dos_img_eoa:cache \
-            --cache-to type=registry,ref=${{ secrets.ECR_REGISTRY }}/dos_img_eoa:cache,mode=max \
-            -t ${{ secrets.ECR_REGISTRY }}/dos_img_eoa:latest ./ch14_eoa
+            -t ${{ secrets.ECR_REGISTRY }}/dos_img_eoa:$COMMIT_SHA ./ch14_eoa \
+            --push
 
-      - name: Tag Docker Images
+      - name: Update Kubernetes Deployment YAML
         run: |
-          docker tag dos_img_aiu:latest ${{ secrets.ECR_REGISTRY }}/dos_img_aiu:latest
-          docker tag dos_img_eoa:latest ${{ secrets.ECR_REGISTRY }}/dos_img_eoa:latest
-
-      - name: Push Docker Images to ECR
-        run: |
-          docker push ${{ secrets.ECR_REGISTRY }}/dos_img_aiu:latest
-          docker push ${{ secrets.ECR_REGISTRY }}/dos_img_eoa:latest
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+          sed -i "s|dos_img_aiu:.*|dos_img_aiu:$COMMIT_SHA|" ./ch14_aiu/aiu-man.yaml
+          sed -i "s|dos_img_eoa:.*|dos_img_eoa:$COMMIT_SHA|" ./ch14_eoa/eoa-man.yaml
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          git add ./ch14_aiu/aiu-man.yaml ./ch14_eoa/eoa-man.yaml
+          git commit -m "Update image tags to $COMMIT_SHA"
+          git push
