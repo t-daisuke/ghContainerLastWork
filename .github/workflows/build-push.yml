@@ -41,13 +41,9 @@ jobs:
         run: |
           COMMIT_SHA=$(git rev-parse --short HEAD)
           docker buildx build --builder mybuilder --platform linux/arm64 \
-            --cache-from type=registry,ref=${{ secrets.ECR_REGISTRY }}/dos_img_aiu:cache \
-            --cache-to type=registry,ref=${{ secrets.ECR_REGISTRY }}/dos_img_aiu:cache,mode=max \
             -t ${{ secrets.ECR_REGISTRY }}/dos_img_aiu:$COMMIT_SHA ./ch14_aiu \
             --push
           docker buildx build --builder mybuilder --platform linux/arm64 \
-            --cache-from type=registry,ref=${{ secrets.ECR_REGISTRY }}/dos_img_eoa:cache \
-            --cache-to type=registry,ref=${{ secrets.ECR_REGISTRY }}/dos_img_eoa:cache,mode=max \
             -t ${{ secrets.ECR_REGISTRY }}/dos_img_eoa:$COMMIT_SHA ./ch14_eoa \
             --push
 
