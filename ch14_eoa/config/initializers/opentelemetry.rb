@@ -13,7 +13,7 @@ OpenTelemetry::SDK.configure do |c|
   c.use_all # すべてのインストルメンテーションを自動的に使用
 
   # OTLPエクスポーターの設定
-  c.service_name = 'your-service-name'
+  c.service_name = 'service-b'
   c.add_span_processor(
     OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
       OpenTelemetry::Exporter::OTLP::Exporter.new(
