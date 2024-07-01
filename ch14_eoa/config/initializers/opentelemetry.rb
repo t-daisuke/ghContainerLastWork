@@ -17,7 +17,7 @@ OpenTelemetry::SDK.configure do |c|
   c.add_span_processor(
     OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
       OpenTelemetry::Exporter::OTLP::Exporter.new(
-        endpoint: 'http://localhost:4317' # エンドポイントを適切に設定
+        endpoint: 'http://localhost:3001' # エンドポイントを適切に設定
       )
     )
   )
