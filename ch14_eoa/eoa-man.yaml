@@ -23,6 +23,8 @@ spec:
         env:
         - name: MY_SERVICE_HOST
           value: 'service-b-service.doskoi.svc.cluster.local'
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: 'http://otel-collector-opentelemetry-collector.monitoring.svc.cluster.local:4317'
 ---
 apiVersion: v1
 kind: Service
