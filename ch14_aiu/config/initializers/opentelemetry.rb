@@ -10,14 +10,18 @@ require 'opentelemetry/instrumentation/active_support'
 
 # SDKの設定
 OpenTelemetry::SDK.configure do |c|
-  c.use_all # すべてのインストルメンテーションを自動的に使用
+  # インストルメンテーションの設定
+  c.use 'OpenTelemetry::Instrumentation::Rack'
+  c.use 'OpenTelemetry::Instrumentation::ActiveRecord'
+  c.use 'OpenTelemetry::Instrumentation::ActionPack'
+  c.use 'OpenTelemetry::Instrumentation::ActionView'
+  c.use 'OpenTelemetry::Instrumentation::ActiveSupport'
 
   # OTLPエクスポーターの設定
-  c.service_name = 'service-a'
   c.add_span_processor(
     OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
       OpenTelemetry::Exporter::OTLP::Exporter.new(
-        endpoint: 'http://localhost:3000' # エンドポイントを適切に設定
+        endpoint: ENV['OTEL_EXPORTER_OTLP_ENDPOINT']
       )
     )
   )
