@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: service-b
-        image: 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_eoa:d2b631f
+        image: 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_eoa:latest
         command: ["/bin/sh", "-c"]
         args: ["rm -f tmp/pids/server.pid && bundle exec rails db:create && bundle exec rails db:migrate && bundle exec rails s -p 3001 -b '0.0.0.0'"]
         ports:
