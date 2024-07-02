@@ -26,7 +26,7 @@ spec:
         - name: OTEL_EXPORTER_OTLP_ENDPOINT
           value: "http://otel-collector-opentelemetry-collector.monitoring.svc.cluster.local:4318"
         - name: OTEL_SERVICE_NAME
-          value: "service-b"
+          value: "doskoi-service-b"
 ---
 apiVersion: v1
 kind: Service

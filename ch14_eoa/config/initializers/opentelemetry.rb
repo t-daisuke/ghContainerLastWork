@@ -3,6 +3,6 @@ require 'opentelemetry/sdk'
 require 'opentelemetry/exporter/otlp'
 
 OpenTelemetry::SDK.configure do |c|
-  c.service_name = 'service-b'
+  c.service_name = 'doskoi-service-b'
   c.use_all
 end
