@@ -16,8 +16,8 @@ docker push 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_aiu:latest
 docker push 905418468932.dkr.ecr.us-east-1.amazonaws.com/dos_img_eoa:latest
 
 # # k8sのデプロイメントをapply
-kubectl apply -f ./ch14-aiu/aiu-man.yaml
-kubectl apply -f ./ch14-eoa/eoa-man.yaml        
+kubectl apply -f ./ch14_aiu/aiu-man.yaml
+kubectl apply -f ./ch14_eoa/eoa-man.yaml        
 # 再起動　
 kubectl rollout restart deployment -n doskoi
 
