@@ -1,61 +1,61 @@
-name: Build, Push and Update Deployment
+# name: Build, Push and Update Deployment
 
-on:
-  push:
-    branches:
-      - main
-#   pull_request:
+# on:
+#   push:
 #     branches:
 #       - main
+# #   pull_request:
+# #     branches:
+# #       - main
 
-jobs:
-  build-and-push:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+# jobs:
+#   build-and-push:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: linux/arm64
+#       - name: Set up QEMU
+#         uses: docker/setup-qemu-action@v2
+#         with:
+#           platforms: linux/arm64
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
 
-      - name: Login to Amazon ECR
-        run: |
-          aws ecr get-login-password --region ${{ secrets.AWS_DEFAULT_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+#       - name: Login to Amazon ECR
+#         run: |
+#           aws ecr get-login-password --region ${{ secrets.AWS_DEFAULT_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
-      - name: Set up Docker Buildx
-        run: |
-          docker buildx create --name mybuilder --use --driver docker-container
-          docker buildx inspect --bootstrap
+#       - name: Set up Docker Buildx
+#         run: |
+#           docker buildx create --name mybuilder --use --driver docker-container
+#           docker buildx inspect --bootstrap
 
-      - name: Build and Push Docker Images
-        run: |
-          COMMIT_SHA=$(git rev-parse --short HEAD)
-          docker buildx build --builder mybuilder --platform linux/arm64 \
-            -t ${{ secrets.ECR_REGISTRY }}/dos_img_aiu:$COMMIT_SHA ./ch14_aiu \
-            --push
-          docker buildx build --builder mybuilder --platform linux/arm64 \
-            -t ${{ secrets.ECR_REGISTRY }}/dos_img_eoa:$COMMIT_SHA ./ch14_eoa \
-            --push
+#       - name: Build and Push Docker Images
+#         run: |
+#           COMMIT_SHA=$(git rev-parse --short HEAD)
+#           docker buildx build --builder mybuilder --platform linux/arm64 \
+#             -t ${{ secrets.ECR_REGISTRY }}/dos_img_aiu:$COMMIT_SHA ./ch14_aiu \
+#             --push
+#           docker buildx build --builder mybuilder --platform linux/arm64 \
+#             -t ${{ secrets.ECR_REGISTRY }}/dos_img_eoa:$COMMIT_SHA ./ch14_eoa \
+#             --push
 
-      - name: Update Kubernetes Deployment YAML
-        run: |
-          COMMIT_SHA=$(git rev-parse --short HEAD)
-          sed -i "s|dos_img_aiu:.*|dos_img_aiu:$COMMIT_SHA|" ./ch14_aiu/aiu-man.yaml
-          sed -i "s|dos_img_eoa:.*|dos_img_eoa:$COMMIT_SHA|" ./ch14_eoa/eoa-man.yaml
-          git config --global user.email "t.daisuke.64@gmail.com"
-          git config --global user.name "t-daisuke"
-          git add ./ch14_aiu/aiu-man.yaml ./ch14_eoa/eoa-man.yaml
-          git commit -m "Update image tags to $COMMIT_SHA"
-          git push
+#       - name: Update Kubernetes Deployment YAML
+#         run: |
+#           COMMIT_SHA=$(git rev-parse --short HEAD)
+#           sed -i "s|dos_img_aiu:.*|dos_img_aiu:$COMMIT_SHA|" ./ch14_aiu/aiu-man.yaml
+#           sed -i "s|dos_img_eoa:.*|dos_img_eoa:$COMMIT_SHA|" ./ch14_eoa/eoa-man.yaml
+#           git config --global user.email "t.daisuke.64@gmail.com"
+#           git config --global user.name "t-daisuke"
+#           git add ./ch14_aiu/aiu-man.yaml ./ch14_eoa/eoa-man.yaml
+#           git commit -m "Update image tags to $COMMIT_SHA"
+#           git push
