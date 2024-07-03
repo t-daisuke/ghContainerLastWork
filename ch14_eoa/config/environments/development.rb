@@ -90,5 +90,5 @@ Rails.application.configure do
 
   # ホスト承認の設定を更新
   allowed_host = ENV['MY_SERVICE_HOST']
-  config.hosts << allowed_host # 'service-b-service'
+  config.hosts << allowed_host # 'service-b-service.doskoi.svc.cluster.local'
 end
